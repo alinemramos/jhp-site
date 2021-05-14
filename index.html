@@ -9,50 +9,12 @@
 
     <link rel="stylesheet" href="libs/bootstrap/compiler/style.css">
 
-    <title>JHP Equipamentos</title> 
+    <title>JHP Equipamentos</title>
 
 </head>
 
 <body>
-    <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-dark remove-padding navbar-jhp">
-
-        <div class="container">
-            <a class="navbar-brand remove-margin-right" href="#"><img src="logo.png"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Serviços</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Sobre nós</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Contato</a>
-                    </li>
-                </ul>
-
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="navDrop">Redes
-                            Sociais</a>
-
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Facebook</a>
-                            <a class="dropdown-item" href="#">Instagram</a>
-                            <a class="dropdown-item" href="#">Twitter</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <div w3-include-html="menu.html"></div>
     <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
@@ -64,8 +26,8 @@
                 <img src="foto1.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                     <h1>First slide label</h1>
-                     <p class="lead font-weight-bold">Some representative placeholder content for the first slide.</p>
-                </div>   
+                    <p class="lead font-weight-bold">Some representative placeholder content for the first slide.</p>
+                </div>
             </div>
             <div class="carousel-item">
                 <img src="foto2.jpg" class="d-block w-100" alt="...">
@@ -96,6 +58,39 @@
     <script src="libs/jquery/dist/jquery.js"></script>
     <script src="libs/popper.js/dist/umd/popper.js"></script>
     <script src="libs/bootstrap/dist/js/bootstrap.js"></script>
+
+    <script>
+        function includeHTML() {
+            var z, i, elmnt, file, xhttp;
+            /* Loop through a collection of all HTML elements: */
+            z = document.getElementsByTagName("*");
+            for (i = 0; i < z.length; i++) {
+                elmnt = z[i];
+                /*search for elements with a certain atrribute:*/
+                file = elmnt.getAttribute("w3-include-html");
+                if (file) {
+                    /* Make an HTTP request using the attribute value as the file name: */
+                    xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState == 4) {
+                            if (this.status == 200) { elmnt.innerHTML = this.responseText; }
+                            if (this.status == 404) { elmnt.innerHTML = "Page not found."; }
+                            /* Remove the attribute, and call this function once more: */
+                            elmnt.removeAttribute("w3-include-html");
+                            includeHTML();
+                        }
+                    }
+                    xhttp.open("GET", file, true);
+                    xhttp.send();
+                    /* Exit the function: */
+                    return;
+                }
+            }
+        }
+    </script>
+    <script>
+        includeHTML();
+    </script>
 </body>
 
 </html>
